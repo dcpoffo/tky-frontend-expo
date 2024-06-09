@@ -4,7 +4,7 @@
     "slug": "frontend-expo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/tky.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -18,7 +18,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.dcpoffo.frontendexpo"
     },
     "web": {
       "favicon": "./assets/favicon.png"

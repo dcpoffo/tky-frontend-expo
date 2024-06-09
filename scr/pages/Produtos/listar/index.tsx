@@ -1,31 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, HStack, Pressable, Spinner, Text, VStack } from 'native-base';
+import { HStack, Pressable, Spinner, Text, VStack, FlatList } from 'native-base';
 import { Button } from '../../../componentes/Button';
 import { useAPI } from '../../../service/API';
 import { useNavigation } from '@react-navigation/native';
 import { StackTypes } from '../../../routes';
+import { Input } from '../../../componentes/Input';
 
 export default function ListaProdutos() {
 
     const [ loading, setLoading ] = useState(true);
     const [ produtos, setProdutos ] = useState<any[]>([]);
+    const [ filteredProdutos, setProdutosFiltrados ] = useState<any[]>([]);
+    const [ searchTerm, setSearchTerm ] = useState('');
 
     const api = useAPI();
     const navigation = useNavigation<StackTypes>();
 
     useEffect(() => {
         loadProducts();
-    }, [produtos]);
+    }, []);
+
+    useEffect(() => {
+        if (searchTerm === '') {
+            setProdutosFiltrados(produtos);
+        } else {
+            produtosFiltrados(searchTerm);
+        }
+    }, [ searchTerm, produtos ]);
 
     const loadProducts = async () => {
         try {
             const result = await api.get("/produtos");
             setProdutos(result.data);
+            setProdutosFiltrados(result.data);
         } catch (e) {
             console.log(e);
         } finally {
             setLoading(false);
         }
+    };
+
+    const produtosFiltrados = (term: string) => {
+        const filtered = produtos.filter(produto =>
+            produto.modelagem.toLowerCase().includes(term.toLowerCase())
+        );
+        setProdutosFiltrados(filtered);
     };
 
     function handleNovo() {
@@ -48,13 +67,23 @@ export default function ListaProdutos() {
             <Button
                 title='Novo Produto'
                 onPress={handleNovo}
-                // onPress={() => { navigation.navigate('NovoProduto') }}
                 marginTop={3}
                 marginBottom={3}
+            />                        
+            
+            <Text fontWeight={'bold'} fontSize={16}>Pesquisar pela modelagem</Text>
+            <Input
+                placeholder='Pesquisar modelagem'
+                value={searchTerm}
+                fontSize={15}
+                h={10}
+                onChangeText={(text) => setSearchTerm(text)}
             />
+
             <FlatList
                 showsVerticalScrollIndicator={false}
-                data={produtos}
+                data={filteredProdutos}
+                keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) =>
                     <Pressable
                         onPress={() => {
