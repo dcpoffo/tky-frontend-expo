@@ -70,6 +70,7 @@ export default function ListaEstoque() {
                     renderItem={({ item }) =>
                         <>
                             <Pressable
+                                bg={"coolGray.200"}
                                 rounded={"8"}
                                 overflow={"hidden"}
                                 borderWidth={1}

@@ -6,7 +6,6 @@ import { Button } from "../../componentes/Button";
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default function Home() {
 
@@ -54,6 +53,10 @@ export default function Home() {
         navigation.navigate('ListaEstoque');
     }
 
+    function handleVendas() {
+        navigation.navigate('ListaVendas');
+    }
+
     function handleTestes() {
         navigation.navigate('TelaTeste')
     }
@@ -77,11 +80,19 @@ export default function Home() {
                     onPress={handleProdutos}
                     marginBottom={5}
                 />
+
                 <Button
                     title="Entrada/Saida Estoque"
                     onPress={handleEstoque}
                     marginBottom={5}
                 />
+
+                <Button
+                    title="Vendas"
+                    onPress={handleVendas}
+                    marginBottom={5}
+                />
+
                 {/* <Button
                     title="Tela de Testes"
                     onPress={handleTestes}
@@ -94,7 +105,7 @@ export default function Home() {
     // Renderiza o botão de autenticação se não estiver autenticado
     return (
         <VStack flex={1} alignItems={'center'} justifyContent={'center'} margin={4}>
-            <MaterialIcons name="warning" size={50} color="red" />
+            {/* <MaterialIcons name="warning" size={50} color="red" /> */}
             <Text>Autenticação necessária para acessar esta página.</Text>
             <Button
                 title="Autenticar"

@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 const schema = yup.object({
     idProduto: yup
         .number()
-        .required("Informe o código do produto"),
+        .required("Informe o produto"),
     tipo: yup
         .string()
         .oneOf([ '0', '1' ], "Selecione Entrada ou Saída")

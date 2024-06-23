@@ -18,7 +18,7 @@ export default function ListaProdutos() {
 
     useEffect(() => {
         loadProducts();
-    }, []);
+    }, [ produtos ]);
 
     useEffect(() => {
         if (searchTerm === '') {

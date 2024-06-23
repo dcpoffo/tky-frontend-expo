@@ -7,6 +7,8 @@ import ListaEstoque from "./pages/Estoque/listar";
 import NovoProduto from "./pages/Produtos/novo";
 import EditarProduto from "./pages/Produtos/editar";
 import NovaMovimentacaoEstoque from "./pages/Estoque/novo";
+import ListaVendas from "./pages/Vendas/listar/indes";
+import NovaVenda from "./pages/Vendas/nova";
 
 type StackNavigation = {
     Login: undefined;
@@ -17,6 +19,8 @@ type StackNavigation = {
     ListaEstoque: undefined;
     NovaMovimentacaoEstoque: undefined;
     TelaTeste: undefined;
+    ListaVendas: undefined;
+    NovaVenda: undefined
 };
 
 export type StackTypes = NativeStackNavigationProp<StackNavigation>;
@@ -57,6 +61,18 @@ function Routes() {
                 name="EditarProduto"
                 component={EditarProduto}
                 options={{ title: 'Editar Produto' }}
+            />
+
+            <Stack.Screen
+                name="ListaVendas"
+                component={ListaVendas}
+                options={{ title: 'Vendas' }}
+            />
+
+            <Stack.Screen
+                name="NovaVenda"
+                component={NovaVenda}
+                options={{ title: 'Nova Venda' }}
             />
 
         </Stack.Navigator>
