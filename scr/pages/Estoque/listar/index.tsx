@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { FlatList, HStack, Pressable, Spinner, Text, VStack, useToast } from "native-base";
+import { Divider, FlatList, HStack, Pressable, Spinner, Text, VStack, useToast } from "native-base";
 import { Button } from "../../../componentes/Button";
 import { useEffect, useState } from "react";
 import { useAPI } from "../../../service/API";
@@ -25,7 +25,7 @@ export default function ListaEstoque() {
         try {
             const result = await api.get("/estoque");
             setMovimentacoesEstoque(result.data);
-            // console.log(result.data)
+            //console.log(result.data)
         } catch (e) {
             console.log(e);
             toast.show({
@@ -76,7 +76,7 @@ export default function ListaEstoque() {
                                 borderWidth={1}
                                 borderColor={"coolGray.400"}
                                 p={2}
-                                marginBottom={2}
+                                marginBottom={1}
                             >
 
                                 <HStack justifyContent={"space-between"}>
@@ -110,19 +110,23 @@ export default function ListaEstoque() {
                                     <Text color={'#2f59f5'} fontWeight={'bold'} fontSize={16}>Descrição: </Text>
                                     <Text fontSize={16}>{item.descricao} </Text>
                                 </HStack>
-
                                 <HStack>
-                                    <Text color={'#2f59f5'} fontWeight={'bold'} fontSize={16}>Produto: </Text>
-                                    <Text fontSize={16}>{item.produto.descricao} </Text>
-                                    <Text fontSize={16}>{item.produto.modelagem} </Text>
-                                    <Text fontSize={16}>{item.produto.tipo} </Text>
-                                    <Text fontSize={16}>{item.produto.grade}</Text>
+                                    <Text width={50} color={'#2f59f5'} fontWeight={'bold'} fontSize={16}>Qtde</Text>
+                                    <Text width={'full'} color={'#2f59f5'} fontWeight={'bold'} fontSize={16}>Produto</Text>
                                 </HStack>
 
-                                <HStack>
-                                    <Text color={'#2f59f5'} fontWeight={'bold'} fontSize={16}>Quantidade: </Text>
-                                    <Text fontSize={16}>{item.quantidade}</Text>
-                                </HStack>
+                                {item.itensMovimentacaoEstoque.map((itemMovimentacao, index) => (
+                                    <VStack key={index} >                                        
+                                        <HStack>
+                                            <Text width={50}>{itemMovimentacao.quantidade}</Text>                                            
+                                            <Text width={'full'}>
+                                                {itemMovimentacao.idProduto} - {itemMovimentacao.produto.descricao} {itemMovimentacao.produto.modelagem} {itemMovimentacao.produto.tipo} {itemMovimentacao.produto.grade}
+                                            </Text>
+                                        </HStack>
+                                        {/* {index < item.itensMovimentacaoEstoque.length - 1 && <Divider color={'coolGray.400'} thickness={2} />} */}
+                                    </VStack>
+
+                                ))}
                             </Pressable>
                         </>
                     }

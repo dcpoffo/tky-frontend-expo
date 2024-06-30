@@ -12,12 +12,18 @@ import { StackTypes } from "../../../routes";
 import { useAPI } from "../../../service/API";
 
 const schema = yup.object({
-    idProduto: yup.number().required("Informe o produto"),
-    quantidade: yup.number()
+    idProduto: yup
+        .number()
+        .required("Informe o produto"),
+    quantidade: yup
+        .number()
         .required('Informe a quantidade')
         .integer('A quantidade deve ser um valor inteiro')
         .moreThan(0, 'O valor deve ser maior que zero'),
-    valorUnitario: yup.number().required('Informe o Valor'),
+    valorUnitario: yup
+        .number()
+        .required('Informe o Valor')
+        .typeError('O valor deve ser um número válido'),
 });
 
 type FormVendasProps = {
@@ -81,7 +87,8 @@ export default function NovaVenda() {
             const produtoSelecionado = produtos.find(produto => produto.id === idProduto);
 
             if (produtoSelecionado) {
-                const total = parseFloat(valorUnitario.toString()) * parseInt(quantidade.toString());
+                //const total = parseFloat(valorUnitario.toString()) * parseInt(quantidade.toString());
+                const total = valorUnitario * quantidade;
                 const novoItem: ItemVenda = {
                     id: Date.now(),
                     idProduto: produtoSelecionado.id,
@@ -172,7 +179,7 @@ export default function NovaVenda() {
         <ScrollView>
             <VStack flex={1} px={3}>
                 <Center>
-                    <Heading mb={2} mt={2}>Tela de Vendas</Heading>
+                    <Heading mb={2} mt={2}>Nova Vendas</Heading>
 
                     <Controller
                         control={control}
@@ -248,12 +255,25 @@ export default function NovaVenda() {
                             <Input
                                 keyboardType="numeric"
                                 placeholder='Valor Unitário'
-                                value={value !== undefined ? value.toString() : ''}
-                                onChangeText={(text) => onChange(Number(text))}
+                                //value={value !== undefined ? value.toString() : ''}
+                                onChangeText={(text) => onChange(parseFloat(text.replace(',', '.')))} // Permite usar vírgula ou ponto
                                 errorMessage={errors.valorUnitario?.message}
                             />
                         )}
                     />
+
+                    <Controller
+                        control={control}
+                        name='valorUnitario'
+                        render={({ field: { onChange } }) => (
+                            <Input
+                                placeholder='Valor da movimentação'
+                                onChangeText={onChange}
+                                errorMessage={errors.valorUnitario?.message}
+                            />
+                        )}
+                    />
+                    
                 </Center>
 
                 <HStack justifyContent="space-between" alignItems="center" px={3}>
