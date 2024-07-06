@@ -14,15 +14,18 @@ const schema = yup.object({
     idProduto: yup
         .number()
         .required("Informe o produto"),
+
     tipo: yup
         .string()
         .oneOf([ '0', '1' ], "Selecione Entrada ou Saída")
         .required("Selecione a movimentação: Entrada / Saida"),
+
     descricao: yup
         .string()
         .required("Informe a descrição da movimentação")
         .min(5, "No mínimo 5 caracteres")
-        .max(50, "No máximo 50 caracteres"),
+        .max(200, "No máximo 200 caracteres"),
+
     quantidade: yup
         .number()
         .required('Informe a quantidade')
@@ -61,7 +64,7 @@ export default function NovaMovimentacaoEstoque() {
     const navigation = useNavigation<StackTypes>();
     const api = useAPI();
 
-    const { control, handleSubmit, formState: { errors }, reset, getValues, setValue } = useForm<FormMovimentacaoProps>({
+    const { control, handleSubmit, formState: { errors }, reset, getValues } = useForm<FormMovimentacaoProps>({
         resolver: yupResolver(schema)
     });
 

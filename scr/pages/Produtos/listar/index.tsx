@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { HStack, Pressable, Spinner, Text, VStack, FlatList } from 'native-base';
+import { HStack, Pressable, Spinner, Text, VStack, FlatList, useToast } from 'native-base';
 import { Button } from '../../../componentes/Button';
 import { useAPI } from '../../../service/API';
 import { useNavigation } from '@react-navigation/native';
@@ -13,6 +13,7 @@ export default function ListaProdutos() {
     const [ filteredProdutos, setProdutosFiltrados ] = useState<any[]>([]);
     const [ searchTerm, setSearchTerm ] = useState('');
 
+    const toast = useToast();
     const api = useAPI();
     const navigation = useNavigation<StackTypes>();
 
@@ -34,7 +35,10 @@ export default function ListaProdutos() {
             setProdutos(result.data);
             setProdutosFiltrados(result.data);
         } catch (e) {
-            console.log(e);
+            toast.show({
+                description: "Erro ao carregar dados. Tente novamente mais tarde.",
+                bg: "red.500"
+            });
         } finally {
             setLoading(false);
         }

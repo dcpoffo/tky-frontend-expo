@@ -7,8 +7,10 @@ import ListaEstoque from "./pages/Estoque/listar";
 import NovoProduto from "./pages/Produtos/novo";
 import EditarProduto from "./pages/Produtos/editar";
 import NovaMovimentacaoEstoque from "./pages/Estoque/novo";
-import ListaVendas from "./pages/Vendas/listar/indes";
+import ListaVendas from "./pages/Vendas/listar";
 import NovaVenda from "./pages/Vendas/nova";
+import ListarConsignacoes from "./pages/Consignacao/listar";
+import NovaConsignacao from "./pages/Consignacao/nova";
 
 type StackNavigation = {
     Login: undefined;
@@ -20,7 +22,9 @@ type StackNavigation = {
     NovaMovimentacaoEstoque: undefined;
     TelaTeste: undefined;
     ListaVendas: undefined;
-    NovaVenda: undefined
+    NovaVenda: undefined;
+    ListaConsignacoes: undefined;
+    NovaConsignacao: undefined;
 };
 
 export type StackTypes = NativeStackNavigationProp<StackNavigation>;
@@ -73,6 +77,18 @@ function Routes() {
                 name="NovaVenda"
                 component={NovaVenda}
                 options={{ title: 'Nova Venda' }}
+            />
+
+            <Stack.Screen
+                name="ListaConsignacoes"
+                component={ListarConsignacoes}
+                options={{ title: 'Lista Consignações' }}
+            />
+
+            <Stack.Screen
+                name="NovaConsignacao"
+                component={NovaConsignacao}
+                options={{ title: 'Nova Venda Consignada' }}
             />
 
         </Stack.Navigator>

@@ -107,7 +107,7 @@ export default function ListaEstoque() {
                                 </HStack>
 
                                 <HStack>
-                                    <Text color={'#2f59f5'} fontWeight={'bold'} fontSize={16}>Descrição: </Text>
+                                    {/* <Text color={'#2f59f5'} fontWeight={'bold'} fontSize={16}>Descrição: </Text> */}
                                     <Text fontSize={16}>{item.descricao} </Text>
                                 </HStack>
                                 <HStack>

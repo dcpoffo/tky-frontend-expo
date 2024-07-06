@@ -75,29 +75,27 @@ export default function ListaVendas() {
                     >
 
                         <HStack justifyContent={"space-between"}>
-
-                            <VStack>
-                                <HStack>
-                                    <Text color={'#2f59f5'} fontWeight={'bold'} fontSize={16}>Valor da Venda: </Text>
-                                    <Text fontSize={16} color="red.500">
-                                        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valorVenda)}
-                                    </Text>
-                                </HStack>
-                            </VStack>
-
-                            <VStack>
-                                <HStack>
-                                    <Text fontSize={16} color={'#2f59f5'} fontWeight={'bold'}>
-                                        {new Date(item.data).toLocaleDateString('pt-BR', {
-                                            day: '2-digit',
-                                            month: '2-digit',
-                                            year: 'numeric'
-                                        })}
-                                    </Text>
-                                </HStack>
-                            </VStack>
-
-                        </HStack>
+                            <HStack>
+                                <Text color={'#2f59f5'} fontWeight={'bold'} fontSize={16}>Valor da Venda: </Text>
+                                <Text fontSize={16} color="red.500">
+                                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valorVenda)}
+                                </Text>
+                            </HStack>
+                            <HStack>
+                                <Text fontSize={16} color={'#2f59f5'} fontWeight={'bold'}>
+                                    {new Date(item.data).toLocaleDateString('pt-BR', {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric'
+                                    })}
+                                </Text>
+                            </HStack>
+                        </HStack>                       
+                        
+                        <VStack>
+                            {/* <Text fontWeight={'bold'}>Descrição da Venda</Text> */}
+                            <Text>{item.descricao}</Text>
+                        </VStack>
 
                         {item.itensDaVenda && item.itensDaVenda.length > 0 && (
                             <VStack >
@@ -108,7 +106,7 @@ export default function ListaVendas() {
                                     <Text fontWeight={'bold'} width={100}>Quantidade</Text>
                                     {/* <Text fontSize={12} fontWeight={'bold'} width={130}>Produto</Text> */}
                                     <Text fontWeight={'bold'} width={100}>R$ Unitário</Text>
-                                    <Text fontWeight={'bold'} width={100}>Total</Text>
+                                    <Text fontWeight={'bold'} width={100}>R$ Total</Text>
                                 </HStack>
 
                                 {item.itensDaVenda.map((itemVenda, index) => (
@@ -125,7 +123,8 @@ export default function ListaVendas() {
                                         </HStack>
                                         <HStack>
                                             <Text width={'full'}>
-                                                {itemVenda.idProduto} - {itemVenda.produto.descricao} {itemVenda.produto.modelagem} {itemVenda.produto.tipo} {itemVenda.produto.grade}
+                                                {/* {itemVenda.idProduto} - {itemVenda.produto.descricao} {itemVenda.produto.modelagem} {itemVenda.produto.tipo} {itemVenda.produto.grade} */}
+                                                {itemVenda.produto.descricao} {itemVenda.produto.modelagem} {itemVenda.produto.tipo} {itemVenda.produto.grade}
                                             </Text>
                                         </HStack>
                                         {index < item.itensDaVenda.length - 1 && <Divider my={2} color={'coolGray.400'} thickness={2}/>}

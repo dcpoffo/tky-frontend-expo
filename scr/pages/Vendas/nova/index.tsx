@@ -24,12 +24,18 @@ const schema = yup.object({
         .number()
         .required('Informe o Valor')
         .typeError('O valor deve ser um número válido'),
+    descricao: yup
+        .string()
+        .required("Informe a descrição")
+        .min(5, "Descrição com no mínimo 5 caracteres")
+        .max(200, "No máximo 200 caracteres"),
 });
 
 type FormVendasProps = {
     idProduto: number;
     quantidade: number;
     valorUnitario: number;
+    descricao: string;
 };
 
 type ProdutoProps = {
@@ -59,7 +65,7 @@ export default function NovaVenda() {
     const navigation = useNavigation<StackTypes>();
     const api = useAPI();
 
-    const { control, handleSubmit, formState: { errors }, reset } = useForm<FormVendasProps>({
+    const { control, handleSubmit, formState: { errors }, reset, getValues } = useForm<FormVendasProps>({
         resolver: yupResolver(schema)
     });
 
@@ -99,6 +105,7 @@ export default function NovaVenda() {
                 };
                 setItensDaVenda([ ...itensDaVenda, novoItem ]);
                 reset({
+                    ...getValues(),
                     idProduto: undefined,
                     quantidade: undefined,
                     valorUnitario: undefined,
@@ -128,6 +135,8 @@ export default function NovaVenda() {
     };
 
     async function handleCadastrar() {
+        const { descricao } = getValues();
+
         if (itensDaVenda.length === 0) {
             toast.show({
                 description: 'Adicione pelo menos um item à venda!',
@@ -140,6 +149,7 @@ export default function NovaVenda() {
 
         try {
             const response = await api.post("/vendas", {
+                descricao: descricao,
                 itensVenda: itensDaVenda.map(item => ({
                     idProduto: item.idProduto,
                     quantidade: item.quantidade,
@@ -180,6 +190,22 @@ export default function NovaVenda() {
             <VStack flex={1} px={3}>
                 <Center>
                     <Heading mb={2} mt={2}>Nova Vendas</Heading>
+
+                    <Controller
+                        control={control}
+                        name='descricao'
+                        render={({ field: { onChange, value } }) => (
+                            <Input
+                                marginTop={4}
+                                placeholder='Descrição'
+                                value={value}
+                                onChangeText={onChange}
+                                errorMessage={errors.descricao?.message}
+                                isDisabled={itensDaVenda.length > 0}
+                                isReadOnly={itensDaVenda.length > 0}
+                            />
+                        )}
+                    />
 
                     <Controller
                         control={control}
@@ -260,19 +286,7 @@ export default function NovaVenda() {
                                 errorMessage={errors.valorUnitario?.message}
                             />
                         )}
-                    />
-
-                    <Controller
-                        control={control}
-                        name='valorUnitario'
-                        render={({ field: { onChange } }) => (
-                            <Input
-                                placeholder='Valor da movimentação'
-                                onChangeText={onChange}
-                                errorMessage={errors.valorUnitario?.message}
-                            />
-                        )}
-                    />
+                    />                    
                     
                 </Center>
 

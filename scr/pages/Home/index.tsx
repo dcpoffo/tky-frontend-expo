@@ -56,6 +56,10 @@ export default function Home() {
     function handleVendas() {
         navigation.navigate('ListaVendas');
     }
+    
+    function handleConsignacoes() {
+        navigation.navigate('ListaConsignacoes');
+    }
 
     function handleTestes() {
         navigation.navigate('TelaTeste')
@@ -90,6 +94,12 @@ export default function Home() {
                 <Button
                     title="Vendas"
                     onPress={handleVendas}
+                    marginBottom={5}
+                />
+
+                <Button
+                    title="Venda Consignada"
+                    onPress={handleConsignacoes}
                     marginBottom={5}
                 />
 

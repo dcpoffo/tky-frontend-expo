@@ -12,8 +12,10 @@ import { useAPI } from '../../../service/API';
 
 const schema = yup.object({
     descricao: yup
-        .string().min(5, "Descrição com no mínimo 5 caracteres")
-        .required("Informe a descrição"),
+        .string()
+        .required("Informe a descrição")
+        .min(5, "Descrição com no mínimo 5 caracteres")
+        .max(50, "No máximo 50 caracteres"),
 
     tipo: yup
         .string()
