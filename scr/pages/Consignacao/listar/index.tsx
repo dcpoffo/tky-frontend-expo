@@ -54,7 +54,7 @@ export default function ListarConsignacoes() {
     return (
         <VStack flex={1} px={2}>
             <Button
-                title="Nova venda"
+                title="Nova Venda Consignada"
                 onPress={handleNovaVenda}
                 marginTop={3}
                 marginBottom={3}

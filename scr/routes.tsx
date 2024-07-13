@@ -42,12 +42,12 @@ function Routes() {
             <Stack.Screen
                 name="Produtos"
                 component={ListaProdutos}
-                options={{ title: 'Lista de Produtos' }}
+                options={{ title: 'Produtos' }}
             />
             <Stack.Screen
                 name="ListaEstoque"
                 component={ListaEstoque}
-                options={{ title: "Movimentação de Estoque" }}
+                options={{ title: "Movimentações de Estoque" }}
             />
 
             <Stack.Screen
@@ -82,7 +82,7 @@ function Routes() {
             <Stack.Screen
                 name="ListaConsignacoes"
                 component={ListarConsignacoes}
-                options={{ title: 'Lista Consignações' }}
+                options={{ title: 'Consignações' }}
             />
 
             <Stack.Screen

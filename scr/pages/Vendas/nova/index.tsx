@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
-import { Box, Center, CheckIcon, Divider, HStack, Heading, Icon, IconButton, Pressable, Select, Text, VStack, WarningOutlineIcon, useToast } from 'native-base';
+import { Box, Center, CheckIcon, Checkbox, Divider, HStack, Heading, Icon, IconButton, Pressable, Select, Text, VStack, WarningOutlineIcon, useToast } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView } from 'react-native';
@@ -29,6 +29,7 @@ const schema = yup.object({
         .required("Informe a descrição")
         .min(5, "Descrição com no mínimo 5 caracteres")
         .max(200, "No máximo 200 caracteres"),
+    consignacao: yup.boolean(),
 });
 
 type FormVendasProps = {
@@ -36,6 +37,7 @@ type FormVendasProps = {
     quantidade: number;
     valorUnitario: number;
     descricao: string;
+    consignacao: boolean;
 };
 
 type ProdutoProps = {
@@ -61,6 +63,7 @@ export default function NovaVenda() {
     const [ itensDaVenda, setItensDaVenda ] = useState<ItemVenda[]>([]);
     const [ totalVenda, setTotalVenda ] = useState<number>(0);
     const [ isPressed, setIsPressed ] = useState(false);
+    const [ isConsignado, setIsConsignado ] = useState(false);
     const toast = useToast();
     const navigation = useNavigation<StackTypes>();
     const api = useAPI();
@@ -71,7 +74,10 @@ export default function NovaVenda() {
 
     useEffect(() => {
         carregarProdutos();
-    }, []);
+        reset({            
+            consignacao: false
+        });
+    }, [reset]);
 
     useEffect(() => {
         calcularTotal();
@@ -135,7 +141,7 @@ export default function NovaVenda() {
     };
 
     async function handleCadastrar() {
-        const { descricao } = getValues();
+        const { descricao, consignacao } = getValues();
 
         if (itensDaVenda.length === 0) {
             toast.show({
@@ -150,6 +156,7 @@ export default function NovaVenda() {
         try {
             const response = await api.post("/vendas", {
                 descricao: descricao,
+                consignacao: consignacao,
                 itensVenda: itensDaVenda.map(item => ({
                     idProduto: item.idProduto,
                     quantidade: item.quantidade,
@@ -189,7 +196,29 @@ export default function NovaVenda() {
         <ScrollView>
             <VStack flex={1} px={3}>
                 <Center>
-                    <Heading mb={2} mt={2}>Nova Vendas</Heading>
+                    <Heading mb={2} mt={2}>Nova Venda</Heading>
+
+                    <Controller
+                        control={control}
+                        name='consignacao'
+                        defaultValue={false}
+                        render={({ field: { onChange, value } }) => (
+                            <Box width="full" alignItems="flex-start">
+                                <Checkbox
+                                    isChecked={value}
+                                    onChange={(isChecked) => {
+                                        onChange(isChecked);
+                                        setIsConsignado(isChecked);
+                                    }}
+                                    value="consignacao"
+                                    // my={2}
+                                    isDisabled={itensDaVenda.length > 0}
+                                >
+                                    Produto consignado?
+                                </Checkbox>
+                            </Box>
+                        )}
+                    />
 
                     <Controller
                         control={control}
@@ -286,8 +315,8 @@ export default function NovaVenda() {
                                 errorMessage={errors.valorUnitario?.message}
                             />
                         )}
-                    />                    
-                    
+                    />
+
                 </Center>
 
                 <HStack justifyContent="space-between" alignItems="center" px={3}>
@@ -349,6 +378,7 @@ export default function NovaVenda() {
                 <Button
                     title='Finalizar venda'
                     onPress={handleCadastrar}
+                    mb={5}
                 />
             </VStack>
         </ScrollView>

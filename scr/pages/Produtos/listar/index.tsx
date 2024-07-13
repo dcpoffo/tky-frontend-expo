@@ -88,7 +88,7 @@ export default function ListaProdutos() {
                 showsVerticalScrollIndicator={false}
                 data={filteredProdutos}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) =>
+                renderItem={({ item }) => (
                     <Pressable
                         onPress={() => {
                             const produtoSelecionado = {
@@ -99,44 +99,45 @@ export default function ListaProdutos() {
                                 grade: item.grade,
                                 barra: item.barra,
                                 qtdEstoque: item.qtdEstoque
-                            }
-                            navigation.navigate('EditarProduto', { item });
+                            };
+                            navigation.navigate('EditarProduto', { item: produtoSelecionado });
                         }}
                         rounded="8"
                         overflow="hidden"
-                        borderWidth="1"
+                        borderWidth={1}
                         borderColor="coolGray.300"
                         bg="coolGray.200"
-                        p="2"
+                        p={2}
                         marginBottom={2}
                     >
-                        <HStack justifyContent={'space-between'}>
-                            <Text fontWeight={'bold'} fontSize={16}>Descrição</Text>
-                            <Text fontWeight={'bold'} fontSize={16}>Tipo</Text>
+                        <HStack justifyContent="space-between">
+                            <Text fontWeight="bold" fontSize={16}>Descrição</Text>
+                            <Text fontWeight="bold" fontSize={16}>Tipo</Text>
                         </HStack>
-                        <HStack justifyContent={'space-between'}>
+                        <HStack justifyContent="space-between">
                             <Text fontSize={16}>{item.descricao}</Text>
                             <Text fontSize={16}>{item.tipo}</Text>
                         </HStack>
-                        <HStack justifyContent={'space-between'}>
-                            <Text fontWeight={'bold'} fontSize={16}>Modelagem</Text>
-                            <Text fontWeight={'bold'} fontSize={16}>Grade</Text>
+                        <HStack justifyContent="space-between">
+                            <Text fontWeight="bold" fontSize={16}>Modelagem</Text>
+                            <Text fontWeight="bold" fontSize={16}>Grade</Text>
                         </HStack>
-                        <HStack justifyContent={'space-between'}>
+                        <HStack justifyContent="space-between">
                             <Text fontSize={16}>{item.modelagem}</Text>
                             <Text fontSize={16}>{item.grade}</Text>
                         </HStack>
-                        <HStack justifyContent={'space-between'}>
-                            <Text fontWeight={'bold'} fontSize={16}>Cód. Barra</Text>
-                            <Text fontWeight={'bold'} fontSize={16}>Qtd. Estoque</Text>
+                        <HStack justifyContent="space-between">
+                            <Text fontWeight="bold" fontSize={16}>Cód. Barra</Text>
+                            <Text fontWeight="bold" fontSize={16}>Qtd. Estoque</Text>
                         </HStack>
-                        <HStack justifyContent={'space-between'}>
+                        <HStack justifyContent="space-between">
                             <Text fontSize={16}>{item.barra}</Text>
                             <Text fontSize={16}>{item.qtdEstoque || 0}</Text>
                         </HStack>
                     </Pressable>
-                }
+                )}
             />
+
         </VStack>
     );
 }

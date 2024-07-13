@@ -223,8 +223,8 @@ export default function NovaMovimentacaoEstoque() {
                                 value={value}
                                 onChangeText={onChange}
                                 errorMessage={errors.descricao?.message}
-                                isDisabled={itensdaMovimentacao.length > 0}
-                                isReadOnly={itensdaMovimentacao.length > 0}
+                                // isDisabled={itensdaMovimentacao.length > 0}
+                                // isReadOnly={itensdaMovimentacao.length > 0}
                             />
                         )}
                     />
