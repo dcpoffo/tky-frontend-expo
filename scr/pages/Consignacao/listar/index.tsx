@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { } from 'react-native'
-import { Text, Heading, useToast, VStack, Spinner, FlatList, Pressable, HStack, Divider } from 'native-base'
+import { Text, Heading, useToast, VStack, Spinner, FlatList, Pressable, HStack, Divider, Box } from 'native-base'
 import { Button } from '../../../componentes/Button'
 import { StackTypes } from '../../../routes';
 import { useNavigation } from '@react-navigation/native';
@@ -65,7 +65,7 @@ export default function ListarConsignacoes() {
                 data={vendas}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) =>
-                    <Pressable
+                    <Box
                         bg={"coolGray.200"}
                         rounded={"8"}
                         overflow={"hidden"}
@@ -120,7 +120,7 @@ export default function ListarConsignacoes() {
                         )}
 
 
-                    </Pressable>
+                    </Box>
                 }
             />
             

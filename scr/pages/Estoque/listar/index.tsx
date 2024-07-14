@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { Divider, FlatList, HStack, Pressable, Spinner, Text, VStack, useToast } from "native-base";
+import { Box, Divider, FlatList, HStack, Pressable, Spinner, Text, VStack, useToast } from "native-base";
 import { Button } from "../../../componentes/Button";
 import { useEffect, useState } from "react";
 import { useAPI } from "../../../service/API";
@@ -69,7 +69,7 @@ export default function ListaEstoque() {
                     data={movimentacoesEstoque}
                     renderItem={({ item }) =>
                         <>
-                            <Pressable
+                            <Box
                                 bg={"coolGray.200"}
                                 rounded={"8"}
                                 overflow={"hidden"}
@@ -82,8 +82,7 @@ export default function ListaEstoque() {
                                 <HStack justifyContent={"space-between"}>
 
                                     <VStack>
-                                        <HStack>
-                                            {/* <Text color={'#2f59f5'} fontWeight={'bold'} fontSize={16}>Tipo: </Text> */}
+                                        <HStack>                                            
                                             {
                                                 item.tipo === '0'
                                                     ? <Text fontSize={16} color={'#2ecc71'}>Entrada</Text>
@@ -127,7 +126,7 @@ export default function ListaEstoque() {
                                     </VStack>
 
                                 ))}
-                            </Pressable>
+                            </Box>
                         </>
                     }
                 />

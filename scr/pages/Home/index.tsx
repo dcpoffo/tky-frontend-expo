@@ -1,5 +1,6 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
-import { VStack, Text, Spinner } from "native-base";
+import { VStack, Text, Spinner, IconButton, Icon } from "native-base";
 import { StackTypes } from "../../routes";
 import { Button } from "../../componentes/Button";
 
@@ -56,7 +57,7 @@ export default function Home() {
     function handleVendas() {
         navigation.navigate('ListaVendas');
     }
-    
+
     function handleConsignacoes() {
         navigation.navigate('ListaConsignacoes');
     }
@@ -78,7 +79,12 @@ export default function Home() {
     // Renderiza os botões somente se estiver autenticado
     if (isAuthenticated) {
         return (
-            <VStack flex={1} alignItems={'center'} justifyContent={'center'} margin={4}>
+            <VStack
+                flex={1}
+                alignItems={'center'}
+                justifyContent={'center'}
+                margin={4}                
+            >
                 <Button
                     title="Produtos"
                     onPress={handleProdutos}
@@ -115,7 +121,10 @@ export default function Home() {
     // Renderiza o botão de autenticação se não estiver autenticado
     return (
         <VStack flex={1} alignItems={'center'} justifyContent={'center'} margin={4}>
-            {/* <MaterialIcons name="warning" size={50} color="red" /> */}
+            <IconButton
+                variant="unstyled"
+                icon={<Icon as={Ionicons} name="warning" size="xl" color="red.500" />}                
+            />
             <Text>Autenticação necessária para acessar esta página.</Text>
             <Button
                 title="Autenticar"

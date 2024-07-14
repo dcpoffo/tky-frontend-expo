@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { } from 'react-native'
-import { Center, Heading, VStack, Text, Spinner, useToast, FlatList, Pressable, HStack, Divider } from 'native-base'
-import { useAPI } from '../../../service/API';
-import { Button } from '../../../componentes/Button';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { Box, Divider, FlatList, HStack, Icon, IconButton, Spinner, Text, useToast, VStack } from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { } from 'react-native';
+import { Button } from '../../../componentes/Button';
 import { StackTypes } from '../../../routes';
+import { useAPI } from '../../../service/API';
 
 export default function ListaVendas() {
 
@@ -22,7 +23,7 @@ export default function ListaVendas() {
     const loadVendas = async () => {
         try {
             const result = await api.get("/vendas");
-            setVendas(result.data); 
+            setVendas(result.data);
         } catch (e) {
             toast.show({
                 description: "Erro ao carregar dados. Tente novamente mais tarde.",
@@ -64,7 +65,7 @@ export default function ListaVendas() {
                 data={vendas}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) =>
-                    <Pressable
+                    <Box
                         bg={"coolGray.200"}
                         rounded={"8"}
                         overflow={"hidden"}
@@ -73,6 +74,17 @@ export default function ListaVendas() {
                         p={2}
                         marginBottom={2}
                     >
+                        <HStack justifyContent={"flex-end"}>
+                            {/* {item.consignacao && (
+                                <Text fontWeight={'bold'} color={'red.500'}>VENDA DE CONSIGNAÇÃO</Text>
+                            )} */}
+                            {item.consignacao && (
+                                <IconButton
+                                    variant="unstyled"
+                                    icon={<Icon as={Ionicons} name="basket" size="lg" color="red.400" />}
+                                />
+                            )}                            
+                        </HStack>
 
                         <HStack justifyContent={"space-between"}>
                             <HStack>
@@ -90,17 +102,14 @@ export default function ListaVendas() {
                                     })}
                                 </Text>
                             </HStack>
-                        </HStack>                       
-                        
+                        </HStack>
+
                         <VStack>
-                            {/* <Text fontWeight={'bold'}>Descrição da Venda</Text> */}
                             <Text>{item.descricao}</Text>
                         </VStack>
 
                         {item.itensDaVenda && item.itensDaVenda.length > 0 && (
                             <VStack >
-                                {/* <Text color={'#2f59f5'} fontWeight={'bold'} fontSize={16}>Itens da Venda</Text> */}
-
                                 <HStack>
                                     <Text fontWeight={'bold'} width={50}>Item</Text>
                                     <Text fontWeight={'bold'} width={100}>Quantidade</Text>
@@ -127,14 +136,14 @@ export default function ListaVendas() {
                                                 {itemVenda.produto.descricao} {itemVenda.produto.modelagem} {itemVenda.produto.tipo} {itemVenda.produto.grade}
                                             </Text>
                                         </HStack>
-                                        {index < item.itensDaVenda.length - 1 && <Divider my={2} color={'coolGray.400'} thickness={2}/>}
+                                        {index < item.itensDaVenda.length - 1 && <Divider my={2} color={'coolGray.400'} thickness={2} />}
                                     </VStack>
-                                    
+
                                 ))}
                             </VStack>
                         )}
 
-                    </Pressable>
+                    </Box>
                 }
             />
         </VStack>
