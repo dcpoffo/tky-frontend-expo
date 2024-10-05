@@ -7,11 +7,14 @@ import { Button } from '../../../componentes/Button'
 import { StackTypes } from '../../../routes';
 import { useNavigation } from '@react-navigation/native';
 import { useAPI } from '../../../service/API';
+import { Input } from '../../../componentes/Input';
 
 export default function ListarConsignacoes() {
 
     const [ vendas, setVendas ] = useState<any[]>([]);
     const [ loading, setLoading ] = useState(true);
+    const [ filteredVendas, setFilteredVendas ] = useState<any[]>([]);
+    const [ searchTerm, setSearchTerm ] = useState('');
 
     const api = useAPI();
     const toast = useToast();
@@ -20,6 +23,21 @@ export default function ListarConsignacoes() {
     useEffect(() => {
         loadVendas();        
     }, [ vendas ])
+
+    useEffect(() => {
+        if (searchTerm === '') {
+            setFilteredVendas(vendas);
+        } else {
+            vendasFiltradas(searchTerm);
+        }
+    }, [ searchTerm, vendas ]);
+
+    const vendasFiltradas = (term: string) => {
+        const filtered = vendas.filter(venda =>
+            venda.descricao.toLowerCase().includes(term.toLowerCase())
+        );
+        setFilteredVendas(filtered);
+    };
 
     function handleNovaVenda() {
         navigation.navigate("NovaConsignacao");
@@ -59,10 +77,19 @@ export default function ListarConsignacoes() {
                 marginTop={3}
                 marginBottom={3}
             />
+            
+            <Text fontWeight={'bold'} fontSize={16}>Pesquisar pela descrição</Text>
+            <Input
+                placeholder='Descrição da venda'
+                value={searchTerm}
+                fontSize={15}
+                h={10}
+                onChangeText={(text) => setSearchTerm(text)}
+            />
 
             <FlatList
                 showsVerticalScrollIndicator={false}
-                data={vendas}
+                data={filteredVendas}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) =>
                     <Box

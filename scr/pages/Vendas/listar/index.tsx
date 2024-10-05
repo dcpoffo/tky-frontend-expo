@@ -6,11 +6,14 @@ import { } from 'react-native';
 import { Button } from '../../../componentes/Button';
 import { StackTypes } from '../../../routes';
 import { useAPI } from '../../../service/API';
+import { Input } from '../../../componentes/Input';
 
 export default function ListaVendas() {
 
     const [ vendas, setVendas ] = useState<any[]>([]);
     const [ loading, setLoading ] = useState(true);
+    const [ filteredVendas, setFilteredVendas ] = useState<any[]>([]);
+    const [ searchTerm, setSearchTerm ] = useState('');
 
     const api = useAPI();
     const toast = useToast();
@@ -20,10 +23,19 @@ export default function ListaVendas() {
         loadVendas();
     }, [ vendas ]);
 
+    useEffect(() => {
+        if (searchTerm === '') {
+            setFilteredVendas(vendas);
+        } else {
+            vendasFiltradas(searchTerm);
+        }
+    }, [ searchTerm, vendas ]);
+
     const loadVendas = async () => {
         try {
             const result = await api.get("/vendas");
             setVendas(result.data);
+            setFilteredVendas(result.data)
         } catch (e) {
             toast.show({
                 description: "Erro ao carregar dados. Tente novamente mais tarde.",
@@ -33,6 +45,13 @@ export default function ListaVendas() {
         finally {
             setLoading(false);
         }
+    };
+
+    const vendasFiltradas = (term: string) => {
+        const filtered = vendas.filter(venda =>
+            venda.descricao.toLowerCase().includes(term.toLowerCase())
+        );
+        setFilteredVendas(filtered);
     };
 
     function handleNovaVenda() {
@@ -60,9 +79,18 @@ export default function ListaVendas() {
                 marginBottom={3}
             />
 
+            <Text fontWeight={'bold'} fontSize={16}>Pesquisar pela descrição</Text>
+            <Input
+                placeholder='Descrição da venda'
+                value={searchTerm}
+                fontSize={15}
+                h={10}
+                onChangeText={(text) => setSearchTerm(text)}
+            />
+
             <FlatList
                 showsVerticalScrollIndicator={false}
-                data={vendas}
+                data={filteredVendas}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) =>
                     <Box
